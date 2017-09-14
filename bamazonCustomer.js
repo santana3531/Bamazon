@@ -1,7 +1,7 @@
 // npm packages
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-// require("console.table");
+require("console.table");
 
 // initialize connection to Bamazon DB in mysql
 var connection = mysql.createConnection({
@@ -25,7 +25,7 @@ connection.connect(function(err) {
 function loadProducts() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
-		// console.table(res);
+		console.table(res);
 		promptCustomerForItem(res);
 	});
 }
@@ -39,15 +39,16 @@ function promptCustomerForItem(inventory) {
 			type: "input",
 			name: "choice",
 			message: "What product do you want homie? (Press Q to Quit)",
-			validate: function(val) {
-				return !isNaN(val) || val.toLowerCase() === "q";
-			}
+			// validate: function(val) {
+			// 	if (!isNaN(val) || val.toLowerCase() === "q")
+			// 		console.log("Put in a number");
+			// }
 
 		}
 		])
 		.then(function(val) {
 			checkForQuit(val.choice); // Check if User is a Quitter
-			var choiceID = parseInt(val.choice);
+			var choiceId = parseInt(val.choice);
 			var product = checkInventory(choiceId, inventory);
 
 			if (product) {
@@ -110,7 +111,7 @@ function checkInventory(choiceId, inventory) {
 	return null;
 }
 
-function checkExit(choice) {
+function checkForQuit(choice) {
 	if (choice.toLowerCase() === "q") {
 		console.log("Thanks Homie, Peace-Out!");
 		process.exit(0);

@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/santana3531/Bamazon/issues"
   },
-  "homepage": "https://github.com/santana3531/Bamazon#readme"
+  "homepage": "https://github.com/santana3531/Bamazon#readme",
+  "dependencies": {
+    "console.table": "^0.9.1",
+    "express": "^4.15.4",
+    "inquirer": "^3.2.3",
+    "mysql": "^2.14.1"
+  }
 }
