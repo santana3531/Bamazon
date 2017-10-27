@@ -1,3 +1,6 @@
+// CONNECT TO MAMP SERVER TO RUN IN NODE //
+
+
 // npm packages
 var mysql = require("mysql");
 var inquirer = require("inquirer");
@@ -14,7 +17,8 @@ var connection = mysql.createConnection({
 
 
 connection.connect(function(err) {
-	if (err) {
+		console.log("You are connected! Start Shopping!")
+		if (err) {
 		console.error("Can't Connect Homie")
 	}
 	loadProducts();
@@ -38,7 +42,7 @@ function promptCustomerForItem(inventory) {
 		{
 			type: "input",
 			name: "choice",
-			message: "What product do you want homie? (Press Q to Quit)",
+			message: "Select which number item_id you would like? (Press Q to Quit)",
 			// validate: function(val) {
 			// 	if (!isNaN(val) || val.toLowerCase() === "q")
 			// 		console.log("Put in a number");
@@ -53,8 +57,8 @@ function promptCustomerForItem(inventory) {
 
 			if (product) {
 				promptCustomerForQuantity(product);
-			} else { // tell them we aint got that shit!
-				console.log("\nWe don't have that garbage");
+			} else { // tell shopper that item isn't available
+				console.log("\nSorry, we do not have that.");
 				loadProducts();
 			}
 		});
@@ -68,7 +72,7 @@ function promptCustomerForQuantity(product) {
 	{
 		type: "input",
 		name: "quantity",
-		message: "Yo, how much you want homie? (Press Q to Quit)",
+		message: "How many " + product.department_name + " would you like? (Press Q to Quit)",
 		validate: function(val) {
 			return val > 0 || val.toLowerCase() === "q";
 		}
@@ -80,7 +84,7 @@ function promptCustomerForQuantity(product) {
 		var quantity = parseInt(val.quantity);
 
 		if (quantity > product.stock_quantity) {
-			console.log("\nDon't be greedy dude, we don't have that much");
+			console.log("\nDON'T BE GREEDY DUDE, WE DON'T HAVE THAT MUCH");
 			loadProducts();
 		}
 		else { // congrats you bought my crap
@@ -113,7 +117,7 @@ function checkInventory(choiceId, inventory) {
 
 function checkForQuit(choice) {
 	if (choice.toLowerCase() === "q") {
-		console.log("Thanks Homie, Peace-Out!");
+		console.log("Thank You! Come again!");
 		process.exit(0);
 	}
 }
